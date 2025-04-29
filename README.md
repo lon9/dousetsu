@@ -2,8 +2,6 @@
 
 This project is a Twitch viewer count monitor built using the Fyne GUI toolkit. It displays the current viewer count, user information, and a graph of viewer count history.
 
-![Dousetsu Twitch Viewer Count Monitor](images/screenshot.png)
-
 ## Features
 
 - Display current viewer count
