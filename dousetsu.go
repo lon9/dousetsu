@@ -76,14 +76,9 @@ type TwitchViewCountMessage struct {
 }
 
 func Dousetsu(ctx context.Context, loginID string) (*UserResponse, chan int, error) {
-	gqlClient := graphql.NewClient(twitchGQLEndpoint)
 
-	r := graphql.NewRequest(query)
-	r.Var("login", loginID)
-	r.Header.Add("Client-Id", twitchClientID)
-	var resp UserResponse
-
-	if err := gqlClient.Run(ctx, r, &resp); err != nil {
+	resp, err := GetUser(ctx, loginID)
+	if err != nil {
 		return nil, nil, err
 	}
 
@@ -168,5 +163,20 @@ func Dousetsu(ctx context.Context, loginID string) (*UserResponse, chan int, err
 		}
 	}()
 
-	return &resp, ch, nil
+	return resp, ch, nil
+}
+
+func GetUser(ctx context.Context, loginID string) (*UserResponse, error) {
+	gqlClient := graphql.NewClient(twitchGQLEndpoint)
+
+	r := graphql.NewRequest(query)
+	r.Var("login", loginID)
+	r.Header.Add("Client-Id", twitchClientID)
+	var resp UserResponse
+
+	if err := gqlClient.Run(ctx, r, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }
