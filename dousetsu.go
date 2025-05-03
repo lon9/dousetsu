@@ -126,9 +126,6 @@ func Dousetsu(ctx context.Context, loginID string) (*UserResponse, chan int, err
 		defer conn.Close()
 		defer close(ch)
 
-		if resp.User.Stream.ID != "" {
-			ch <- resp.User.Stream.ViewersCount
-		}
 		for {
 			select {
 			case <-ctx.Done():
